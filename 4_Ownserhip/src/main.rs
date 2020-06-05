@@ -1,154 +1,23 @@
-const MAX_POINTS: u32 = 100_000;
-
 fn main() {
-    
-    let mut x = 5;
-    println!("The value of x is: {}", x);
-    x = 6;
-    println!("The value of x is: {}", x);
+    let s = String::from("hello");  // s comes into scope
 
-    let y = 5;
+    takes_ownership(s);             // s's value moves into the function...
+                                    // ... and so is no longer valid here
 
-    let y = y + 1;
+    let x = 5;                      // x comes into scope
 
-    let y = y * 2;
+    makes_copy(x);                  // x would move into the function,
+                                    // but i32 is Copy, so it’s okay to still
+                                    // use x afterward
 
-     println!("The value of x is: {}", y);
+} // Here, x goes out of scope, then s. But because s's value was moved, nothing
+  // special happens.
 
+fn takes_ownership(some_string: String) { // some_string comes into scope
+    println!("{}", some_string);
+} // Here, some_string goes out of scope and `drop` is called. The backing
+  // memory is freed.
 
-    let spaces = "   ";
-    let spaces = spaces.len();
-
-    
-    
-    let x = 2.0; // f64
-
-    let y: f32 = 3.0; // f32
-
-    // addition
-    let sum = 5 + 10;
-
-    // subtraction
-    let difference = 95.5 - 4.3;
-
-    // multiplication
-    let product = 4 * 30;
-
-    // division
-    let quotient = 56.7 / 32.2;
-
-    // remainder
-    let remainder = 43 % 5;
-
-    // booleans
-    let t = true;
-    let f : bool = false;
-
-    // characters
-    let c = 'z';
-    let heart_eyed_cat = '😻'; // emoji
-
-    //
-    // compound types
-    //
-
-    // Tuples => Tuples have a fixed length: once declared, they cannot grow or shrink in size.
-    let tup : (i32, f64, u8) = (500, 6.4, 1); 
-
-    let (x, y, z) = tup;
-
-    println!("The value of y is: {}", y);
-
-    let five_hundred = tup.0;
-
-    let six_point_four = tup.1;
-
-    let one = tup.2;
-
-    // Arrays => Unlike a tuple, every element of an array must have the same type. Arrays in Rust are different from arrays in some other languages because arrays in Rust have a fixed length
-    let a = [1, 2, 3, 4, 5];
-    let months = ["January", "February", "March", "April", "May", "June", "July",
-              "August", "September", "October", "November", "December"];
-
-    let a: [i32; 5] = [1, 2, 3, 4, 5]; 
-
-    let first = a[0];
-    let second = a[1];
-
-    another_function(5, 6);
-
-    function_with_statement();
-
-
-    println!("The value of this function is: {}", five());
-    println!("The value of this function is: {}", plus_one(five()));
-}
-
-fn another_function(x: i32, y: i32) {
-    println!("The value of x is: {}", x);
-    println!("The value of y is: {}", y);
-}
-
-fn function_with_statement(){
-    let x = 5;
-
-    let y = {
-        let x = 3;
-        x + 1
-    };
-}
-
-fn five() -> i32{
-    5
-}
-
-
-fn plus_one(x: i32) -> i32 {
-    x + 1
-}
-
-fn function_with_condition(){
-
-    let condition = true;
-
-    let number = if condition { 5 } else { 6};
-
-    println!("The value of number is: {}", number);
-
-}
-
-fn function_with_loops(){
-
-    loop {
-        // println!("again!");
-    }
-
-    let mut counter = 0;
-
-    let result = loop {
-        counter += 1;
-
-        if counter == 10 {
-            break counter * 2;
-        }
-    };
-
-    println!("The result is {}", result);
-
-    let mut number = 3;
-
-    while number != 0 {
-        println!("{}!", number);
-
-        number -= 1;
-    }
-
-    println!("LIFTOFF!!!");
-
-    let a = [10, 20, 30, 40, 50];
-
-    for element in a.iter() {
-        println!("the value is: {}", element);
-    }
-
-}
+fn makes_copy(some_integer: i32) { // some_integer comes into scope
+    println!("{}", some_integer);
+} // Here, some_integer goes out of scope. Nothing special happens.
